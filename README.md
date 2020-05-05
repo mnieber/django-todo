@@ -17,7 +17,7 @@ assignment application for Django, designed to be dropped into an existing site 
 * Batch-import tasks via CSV
 * Multiple file attachments per task (see settings)
 * Integrated mail tracking (unify a task list with an email box)
-
+* Customizable Task model
 
 ## Requirements
 
@@ -288,6 +288,50 @@ LOGGING = {
     },
 }
 ```
+
+
+## Custom models
+
+It's possible to use your own models with the `DJANGO_TODO_MODELS` setting:
+
+```python
+# settings.py
+
+MIGRATION_MODULES = {
+    "todo": "my_app.migrations_todo",
+}
+
+DJANGO_TODO_MODELS = {
+    "TaskList": ("my_app.MyTaskList", "my_app.models"),
+    "Task": ("my_app.MyTask", "my_app.models"),
+    "Attachment": ("my_app.MyAttachment", "my_app.models",),
+    "Comment": ("my_app.MyComment", "my_app.models"),
+}
+
+
+# my_app/abstract_models.py
+from todo.default_models import AbstractAttachment, AbstractComment, AbstractTask
+
+class MyTask(AbstractTask):
+    pass
+
+class MyComment(AbstractComment):
+    pass
+
+class MyAttachment(AbstractAttachment):
+    pass
+```
+
+Notes:
+
+- disable the default `todo` migrations by setting `todo` to an empty
+directory in `settings.MIGRATION_MODULES`.
+
+- each items of DJANGO_TODO_MODELS maps to a Django model (written as a string,
+similar to how you would specify a ForeignKey) and a module import path.
+
+- if you override one of TaskList, Task, Comment and Attachment, then you need
+to override them all
 
 
 ## Running Tests
