@@ -3,7 +3,7 @@
 from io import open
 from os import path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 import todo
 
@@ -40,7 +40,7 @@ setup(
     packages=find_packages(),  # Finds modules with an __init__.py
     include_package_data=True,  # Pulls in non-module data from MANIFEST.in
     python_requires=">=3.5",
-    install_requires=["unidecode"],
+    install_requires=["bleach", "Django", "django-autocomplete-light", "unidecode"],
     project_urls={
         "Demo Site": "http://django-todo.org",
         "Bug Reports": "https://github.com/shacker/django-todo/issues",
