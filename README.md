@@ -333,6 +333,18 @@ similar to how you would specify a ForeignKey) and a module import path.
 - if you override one of TaskList, Task, Comment and Attachment, then you need
 to override them all
 
+### Using models.UUIDField for the custom model's id field
+
+If you are using ``id = models.UUIDField`` in your custom models, then you need
+to define the following settings:
+
+```
+# settings.py
+
+DJANGO_TODO_LIST_PATH_PREFIX = "list/"  # urls to lists start with "list/"
+DJANGO_TODO_ID_FORMAT = "str"  # when matching the id in a url, accept a string value
+
+```
 
 ## Running Tests
 
